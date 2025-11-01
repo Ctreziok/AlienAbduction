@@ -4,8 +4,7 @@ Endless runner across rooftops with occasional UFO.
 
 ## Controls
 - Space – Jump  
-- <- -> - moving left and right  
-- Esc – Pause
+- A, D - moving left and right  
 
 ## Project Info
 - Unity Version: 2022.3.17f1 (LTS)  
