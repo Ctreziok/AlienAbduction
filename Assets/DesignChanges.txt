@@ -1,0 +1,35 @@
+Alien Abduction – Design Changes
+
+Core concept kept:
+- Endless rooftop runner where the player dodges UFO beam attacks.
+
+Gameplay adjustments:
+- Uses A and D for movement rather than arrow keys
+- Buildings spawn infinitely with tuned gap and height limits.
+- Added bounds so player doesn't go to far left or right.
+- UFO cooldown reduced from 30s to ~6 seconds.
+- Constantly tuned and adjusted player movements.
+
+Art updates:
+- Added parallax backgrounds (BG_Far, BG_Near).
+
+Sound updates:
+- SFX: jump, land, UFO warn, beam, game over.
+- No background music to keep focus on SFX audio.
+
+Code/Tech improvements:
+- Scoring + Game Over UI.
+
+Testing notes:
+- No known gameplay bugs.
+- Physics and collisions stable.
+- Beware of Bounds.
+- Tested on macOS with Unity 2022.3.17f1.
+
+Sources:
+- Audio: Pixabay (CC0)
+- Sprites: Unity built-in shapes (CC0)
+
+Author: Colin Treziok
+Date: 31/10/2025
+Unity Version: 2022.3.17f1
