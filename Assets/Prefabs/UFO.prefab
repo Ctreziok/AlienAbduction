@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 753040211701615019}
   - component: {fileID: 5951289537842554298}
   - component: {fileID: 7744084915350532741}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,8 +72,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1059348923
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: cfaa4f969db7a49939dcf814a9bbc9fe, type: 3}
   m_Color: {r: 0.8113208, g: 0.8074613, b: 0.18752226, a: 1}
@@ -153,7 +153,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5574967542391282657}
   - component: {fileID: 3976965247523930839}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,8 +213,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1059348923
+  m_SortingLayer: 5
   m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 7043967711129569786}
   - component: {fileID: 3588689746689270398}
   - component: {fileID: 4516960829889024484}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: UFO
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -20,6 +20,15 @@ public class PlayerController2D : MonoBehaviour
     public Transform groundCheck;             
     public Vector2 groundCheckSize = new(0.8f, 0.12f);
     public LayerMask groundMask;
+    
+    [Header("Bounds")]
+    public float minX = -20f;
+    public float maxX =  60f;
+    
+    [Header("SFX")]
+    public AudioClip jumpSfx;
+    public AudioClip landSfx;
+
 
     Rigidbody2D rb;
     Vector2 moveInput;
@@ -27,7 +36,8 @@ public class PlayerController2D : MonoBehaviour
     float coyoteTimer;
     float bufferTimer;
     float defaultGravity;
-
+    bool wasGrounded;
+    
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -40,7 +50,9 @@ public class PlayerController2D : MonoBehaviour
     void Update()
     {
         bool grounded = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, groundMask);
-
+        if (!wasGrounded && grounded && landSfx) AudioManager.I?.PlaySFX(landSfx, 0.8f);
+        wasGrounded = grounded;
+        
         coyoteTimer = grounded ? coyoteTime : Mathf.Max(0f, coyoteTimer - Time.deltaTime);
         bufferTimer = Mathf.Max(0f, bufferTimer - Time.deltaTime);
 
@@ -66,6 +78,11 @@ public class PlayerController2D : MonoBehaviour
         float targetX = moveInput.x * lateralBiasSpeed;
         float vx = Mathf.MoveTowards(rb.velocity.x, targetX, 40f * Time.fixedDeltaTime);
         rb.velocity = new Vector2(vx, rb.velocity.y);
+        
+        //Clamping horizontal position
+        float clampedX = Mathf.Clamp(rb.position.x, minX, maxX);
+        rb.position = new Vector2(clampedX, rb.position.y);
+
 
         //face direction
         if (Mathf.Abs(moveInput.x) > 0.02f)
@@ -83,6 +100,7 @@ public class PlayerController2D : MonoBehaviour
         if (ctx.started) bufferTimer = jumpBuffer; //pressed this frame
         jumpHeld = ctx.performed || ctx.started;   //held while performed
         if (ctx.canceled) jumpHeld = false;        //released
+        if (ctx.started && jumpSfx) AudioManager.I?.PlaySFX(jumpSfx, 0.9f);
     }
 
     

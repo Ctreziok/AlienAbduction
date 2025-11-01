@@ -73,6 +73,7 @@ public class UfoController : MonoBehaviour
             yield return new WaitForSeconds(warnTime);
 
             //Active beam
+            AudioManager.I?.SetMusicDb(-8f);
             SetBeamActive(true, 1f);
             StartLoop(beamLoopSfx);
             float t = beamTime;
@@ -96,6 +97,7 @@ public class UfoController : MonoBehaviour
             }
             StopLoop();
             SetBeamActive(false, 0f);
+            AudioManager.I?.SetMusicDb(0f);
             HideUfoBetweenAttacks();
             
             //schedule next
@@ -189,21 +191,22 @@ public class UfoController : MonoBehaviour
         audioSource.Play();
     }
 
-    void StartLoop(AudioClip loop)
+    void StartLoop(AudioClip clip)
     {
-        if (!audioSource || loop == null) return;
-        audioSource.loop = true;
-        audioSource.clip = loop;
+        if (!audioSource || clip == null) return;
+        // just play once (no loop)
+        audioSource.loop = false;
+        audioSource.clip = clip;
         audioSource.Play();
     }
 
     void StopLoop()
     {
         if (!audioSource) return;
-        audioSource.loop = false;
         audioSource.Stop();
         audioSource.clip = null;
     }
+
 
     //shows beam width
     void OnDrawGizmosSelected()

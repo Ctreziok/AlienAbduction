@@ -11,11 +11,11 @@ TagManager:
   - 
   - Water
   - UI
-  - Ground
+  - Background Far
+  - Background Near
+  - Buildings
   - Player
-  - UFO
-  - Beam
-  - 
+  - Effects
   - 
   - 
   - 
@@ -41,6 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: VFX
+  - name: Background Far
     uniqueID: 903817271
+    locked: 0
+  - name: Background Near
+    uniqueID: 3145866825
+    locked: 0
+  - name: Buildings
+    uniqueID: 155262703
+    locked: 0
+  - name: Player
+    uniqueID: 3377524647
+    locked: 0
+  - name: Effects
+    uniqueID: 3235618373
     locked: 0
