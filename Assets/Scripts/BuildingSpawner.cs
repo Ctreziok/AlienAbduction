@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class BuildingSpawner : MonoBehaviour
 {
+
+    public Transform player;
+    public float playerRoofEdgeMargin = 0.25f;   // keeps feet off the very edge
+    
     [Header("Scroll")]
     public float scrollSpeed = 6f;
     public float speedAccelPerMinute = 0.6f;
@@ -43,6 +47,8 @@ public class BuildingSpawner : MonoBehaviour
         lastTopY = 0f;
         for (int i = 0; i < 10; i++)
             SpawnChunk(ref xEdge, ref lastTopY, i == 0 ? 0f : RandomGap(), i == 0);
+        
+        PlacePlayerOnStartRoof();
     }
 
     void Update()
@@ -114,8 +120,8 @@ public class BuildingSpawner : MonoBehaviour
             return;
         }
 
-        // If you want per-chunk width, uncomment the next line and replace uses of buildingWidth with w
-        float w = buildingWidth; // float w = Mathf.Max(0.1f, chunk.width);
+        //If you want per-chunk width
+        float w = buildingWidth; 
 
         float nextTop = ClampTop(lastTop + Random.Range(heightDeltaRange.x, heightDeltaRange.y));
 
@@ -133,7 +139,7 @@ public class BuildingSpawner : MonoBehaviour
     float GetRightEdgeOfLast()
     {
         if (active.Count == 0)
-            return leftCullX - buildingWidth; // ensures refill happens next
+            return leftCullX - buildingWidth; //ensures refill happens next
         var last = active[active.Count - 1];
         return last.position.x + buildingWidth * 0.5f;
     }
@@ -145,4 +151,55 @@ public class BuildingSpawner : MonoBehaviour
         var chunk = last.GetComponent<BuildingChunk>();
         return last.position.y + chunk.topLocalY;
     }
+    void PlacePlayerOnStartRoof()
+    {
+        if (!player || active == null || active.Count == 0) return;
+
+        var cam = Camera.main;
+        float halfScreen = cam.orthographicSize * cam.aspect;
+
+        //player start
+        float desiredX = cam.transform.position.x - halfScreen * 0.25f;
+
+        BuildingChunk best = null;
+        float bestScore = float.MaxValue;
+
+        //Find the chunk that contains desiredX; if none, choose nearest edge
+        foreach (var go in active)
+        {
+            if (!go) continue;
+            var bc = go.GetComponent<BuildingChunk>();
+            if (!bc) continue;
+
+            var t = go.transform;
+            float wWorld = bc.width * t.lossyScale.x;
+            float cx = t.position.x;
+            float min = cx - wWorld * 0.5f;
+            float max = cx + wWorld * 0.5f;
+
+            float score = 0f;
+            if (desiredX < min) score = min - desiredX;          //distance to left edge
+            else if (desiredX > max) score = desiredX - max;     //distance to right edge
+            else score = 0f;                                     //inside = perfect
+
+            //slight tiebreaker toward chunks nearer desiredX
+            score += Mathf.Abs(cx - desiredX) * 0.01f;
+
+            if (score < bestScore) { bestScore = score; best = bc; }
+        }
+
+        if (!best) return;
+
+        var bt = best.transform;
+        float w = best.width * bt.lossyScale.x;
+        float topY = bt.position.y + best.topLocalY * bt.lossyScale.y;
+
+        float roofMinX = bt.position.x - w * 0.5f + playerRoofEdgeMargin;
+        float roofMaxX = bt.position.x + w * 0.5f - playerRoofEdgeMargin;
+        float startX   = Mathf.Clamp(desiredX, roofMinX, roofMaxX);
+
+        player.position = new Vector3(startX, topY + 0.02f, player.position.z);
+    }
+
+    
 }
